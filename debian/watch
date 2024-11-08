@@ -1,0 +1,8 @@
+version=4
+
+opts="\
+pgpmode=none,\
+repack,compression=xz,repacksuffix=+ds1,\
+dversionmangle=auto,\
+" https://github.com/containers/common/tags \
+  .*/v?@ANY_VERSION@\.tar\.gz
