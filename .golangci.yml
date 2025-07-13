@@ -9,22 +9,10 @@ run:
     - exclude_graphdriver_devicemapper
     - containers_image_openpgp
     - cni
-  concurrency: 6
-  deadline: 5m
+  timeout: 5m
 linters:
   enable-all: true
   disable:
-    # linters deprecated by upstreams ...
-    - interfacer
-    - varcheck
-    - deadcode
-    - scopelint
-    - maligned
-    - nosnakecase
-    - exhaustivestruct
-    - structcheck
-    - ifshort
-    - golint
     # linters explicitly disabled for the below mentioned reasons ...
     - funlen # too aggressive/wishful size/statement limit
     - gochecknoinits # too many hard to fix init() funcs across the code
@@ -41,9 +29,8 @@ linters:
     - errname
     - errorlint
     - exhaustive
-    - exhaustivestruct
     - gochecknoglobals
-    - goerr113
+    - err113
     - gomnd
     - nolintlint
     - wrapcheck
@@ -60,12 +47,14 @@ linters:
     - maintidx
     - ireturn
     - exhaustruct
+    - execinquery
     - gosec
     - godot
     - gocyclo
     - dogsled
     - tparallel
     - thelper
+    - mnd #way to many false positives
     - nilnil
     - nilerr
     - interfacebloat

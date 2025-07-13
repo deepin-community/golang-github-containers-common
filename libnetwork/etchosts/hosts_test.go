@@ -53,12 +53,12 @@ const baseFileContent4 = `127.0.0.1	localhost
 `
 
 const targetFileContent4 = `1.1.1.1	name1
-2.2.2.2	name2
+2.2.2.2	name2 name3 name4
 127.0.0.1	localhost
 `
 
-const targetFileContent5 = `1.1.1.1	name1
-2.2.2.2	name2
+const targetFileContent5 = `1.1.1.1	name1 name2
+2.2.2.2	name3
 127.0.1.1	localhost
 `
 
@@ -137,13 +137,13 @@ func TestNew(t *testing.T) {
 		{
 			name:                      "extra hosts",
 			baseFileContent:           baseFileContent4,
-			extraHosts:                []string{"name1:1.1.1.1", "name2:2.2.2.2"},
+			extraHosts:                []string{"name1:1.1.1.1", "name2;name3;name4:2.2.2.2"},
 			expectedTargetFileContent: targetFileContent4,
 		},
 		{
 			name:                      "extra hosts with localhost",
 			baseFileContent:           "",
-			extraHosts:                []string{"name1:1.1.1.1", "name2:2.2.2.2", "localhost:127.0.1.1"},
+			extraHosts:                []string{"name1;name2:1.1.1.1", "name3:2.2.2.2", "localhost:127.0.1.1"},
 			expectedTargetFileContent: targetFileContent5,
 		},
 		{
@@ -290,7 +290,6 @@ func TestNew(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			baseHostFile := tt.baseFileName
 			if !tt.noWriteBaseFile {
@@ -364,7 +363,6 @@ func TestAdd(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			f, err := os.CreateTemp(t.TempDir(), "hosts")
 			assert.NoErrorf(t, err, "failed to create base host file: %v", err)
@@ -460,7 +458,6 @@ func TestAddIfExists(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			f, err := os.CreateTemp(t.TempDir(), "hosts")
 			assert.NoErrorf(t, err, "failed to create base host file: %v", err)
@@ -523,7 +520,6 @@ func TestRemove(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			f, err := os.CreateTemp(t.TempDir(), "hosts")
 			assert.NoErrorf(t, err, "failed to create base host file: %v", err)

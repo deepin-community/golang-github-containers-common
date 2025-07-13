@@ -1,3 +1,5 @@
+export GOPROXY=https://proxy.golang.org
+
 GO ?= go
 GO_BUILD=$(GO) build
 BUILDTAGS := containers_image_openpgp,systemd,exclude_graphdriver_devicemapper
@@ -85,7 +87,7 @@ vendor:
 .PHONY: install.tools
 install.tools: build/golangci-lint .install.md2man
 
-build/golangci-lint: VERSION=v1.56.2
+build/golangci-lint: VERSION=v1.60.3
 build/golangci-lint:
 	curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/$(VERSION)/install.sh | sh -s -- -b ./build $(VERSION)
 
