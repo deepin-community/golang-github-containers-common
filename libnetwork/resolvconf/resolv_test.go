@@ -122,9 +122,20 @@ func TestNew(t *testing.T) {
 			ipv6:        true,
 			want:        "nameserver 1.1.1.1\nnameserver fd::1\n",
 		},
+		{
+			name:        "ipv6 link local must always be filtered when netns is private",
+			baseContent: "nameserver 1.1.1.1\nnameserver fe80::1%eth1\nnameserver fd::1\n",
+			ipv6:        true,
+			want:        "nameserver 1.1.1.1\nnameserver fd::1\n",
+		},
+		{
+			name:        "ipv6 link local must not be filtered when netns is host",
+			baseContent: "nameserver 1.1.1.1\nnameserver fe80::1%eth1\nnameserver fd::1\n",
+			hostns:      true,
+			want:        "nameserver 1.1.1.1\nnameserver fe80::1%eth1\nnameserver fd::1\n",
+		},
 	}
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			base := filepath.Join(t.TempDir(), "resolv.conf")
 			target := filepath.Join(t.TempDir(), "new-resolv.conf")
@@ -185,7 +196,6 @@ options edns0
 		},
 	}
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			resolvPath := filepath.Join(t.TempDir(), "resolv.conf")
 			err := os.WriteFile(resolvPath, []byte(tt.content), 0o644)
@@ -228,7 +238,6 @@ options edns0
 		},
 	}
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			resolvPath := filepath.Join(t.TempDir(), "resolv.conf")
 			err := os.WriteFile(resolvPath, []byte(tt.content), 0o644)

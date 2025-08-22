@@ -311,7 +311,7 @@ func TestTagAndUntagParallel(t *testing.T) {
 
 	// Test tag in parallel, the extra go routine is critical for the test do not remove that.
 	wg.Add(tagCount)
-	for i := 0; i < tagCount; i++ {
+	for i := range tagCount {
 		name := fmt.Sprintf("localhost/tag-%d:latest", i)
 		names = append(names, name)
 		go func(name string) {
@@ -331,7 +331,7 @@ func TestTagAndUntagParallel(t *testing.T) {
 
 	// Test untag in parallel
 	wg.Add(tagCount)
-	for i := 0; i < tagCount; i++ {
+	for i := range tagCount {
 		name := fmt.Sprintf("localhost/tag-%d:latest", i)
 		names = append(names, name)
 		go func(name string) {
@@ -391,7 +391,7 @@ func TestUntag(t *testing.T) {
 func getImageAndRuntime(t *testing.T) (*Runtime, *Image) {
 	// Note: this will resolve pull from the GCR registry (see
 	// testdata/registries.conf).
-	busyboxLatest := "docker.io/library/busybox:latest"
+	busyboxLatest := "quay.io/libpod/busybox:latest"
 
 	runtime := testNewRuntime(t)
 	ctx := context.Background()
