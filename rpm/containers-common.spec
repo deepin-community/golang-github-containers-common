@@ -50,7 +50,12 @@ BuildRequires: git-core
 BuildRequires: go-md2man
 Provides: skopeo-containers = %{epoch}:%{version}-%{release}
 Requires: (container-selinux >= 2:2.162.1 if selinux-policy)
+%if 0%{?fedora}
+Recommends: fuse-overlayfs
+Requires: (fuse-overlayfs if fedora-release-identity-server)
+%else
 Suggests: fuse-overlayfs
+%endif
 URL: https://github.com/%{project}/%{repo}
 Source0: %{url}/archive/v%{version_no_tilde}.tar.gz
 Source1: %{raw_github_url}/image/%{image_branch}/docs/containers-auth.json.5.md
@@ -85,10 +90,8 @@ Summary: Extra dependencies for Podman and Buildah
 Requires: %{name} = %{epoch}:%{version}-%{release}
 Requires: container-network-stack
 Requires: oci-runtime
-Requires: nftables
 Requires: passt
 %if %{defined fedora}
-Requires: iptables
 Conflicts: podman < 5:5.0.0~rc4-1
 Recommends: composefs
 Recommends: crun
@@ -138,7 +141,7 @@ done
 
 %install
 # install config and policy files for registries
-install -dp %{buildroot}%{_sysconfdir}/containers/{certs.d,oci/hooks.d,systemd}
+install -dp %{buildroot}%{_sysconfdir}/containers/{certs.d,oci/hooks.d,networks,systemd}
 install -dp %{buildroot}%{_sharedstatedir}/containers/sigstore
 install -dp %{buildroot}%{_datadir}/containers/systemd
 install -dp %{buildroot}%{_prefix}/lib/containers/storage
@@ -184,6 +187,7 @@ ln -s ../../../..%{_sysconfdir}/yum.repos.d/redhat.repo %{buildroot}%{_datadir}/
 %files
 %dir %{_sysconfdir}/containers
 %dir %{_sysconfdir}/containers/certs.d
+%dir %{_sysconfdir}/containers/networks
 %dir %{_sysconfdir}/containers/oci
 %dir %{_sysconfdir}/containers/oci/hooks.d
 %dir %{_sysconfdir}/containers/registries.conf.d

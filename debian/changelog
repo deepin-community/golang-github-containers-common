@@ -1,3 +1,41 @@
+golang-github-containers-common (0.62.2+ds1-2) unstable; urgency=medium
+
+  * Update shortnames.conf, Closes: #1100985
+
+ -- Reinhard Tartler <siretart@tauware.de>  Fri, 21 Mar 2025 09:50:27 -0400
+
+golang-github-containers-common (0.62.2+ds1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Tighten depedency on containers/{storage,image}
+
+ -- Reinhard Tartler <siretart@tauware.de>  Mon, 17 Mar 2025 21:34:44 -0400
+
+golang-github-containers-common (0.62.0+ds1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Reinhard Tartler <siretart@tauware.de>  Tue, 11 Feb 2025 18:57:04 -0500
+
+golang-github-containers-common (0.61.1+ds1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sun, 19 Jan 2025 16:13:00 -0500
+
+golang-github-containers-common (0.61.0+ds1-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sun, 17 Nov 2024 10:00:45 -0500
+
+golang-github-containers-common (0.61.0+ds1-1) experimental; urgency=medium
+
+  * New upstream release
+  * Tighten dependencies
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sun, 10 Nov 2024 06:51:48 -0500
+
 golang-github-containers-common (0.60.4+ds1-1) unstable; urgency=medium
 
   * New upstream release
