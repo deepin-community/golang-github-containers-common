@@ -19,9 +19,9 @@ func TestSave(t *testing.T) {
 	// Prefetch alpine, busybox.
 	pullOptions := &PullOptions{}
 	pullOptions.Writer = os.Stdout
-	_, err := runtime.Pull(ctx, "docker.io/library/alpine:latest", config.PullPolicyAlways, pullOptions)
+	_, err := runtime.Pull(ctx, "quay.io/libpod/alpine:latest", config.PullPolicyAlways, pullOptions)
 	require.NoError(t, err)
-	_, err = runtime.Pull(ctx, "docker.io/library/busybox:latest", config.PullPolicyAlways, pullOptions)
+	_, err = runtime.Pull(ctx, "quay.io/libpod/busybox:latest", config.PullPolicyAlways, pullOptions)
 	require.NoError(t, err)
 
 	// Save the two images into a multi-image archive.  This way, we can
@@ -101,7 +101,7 @@ func TestSave(t *testing.T) {
 		if strings.HasSuffix(test.format, "-dir") {
 			continue
 		}
-		_, err = runtime.ListImages(ctx, namesAndTags, nil)
+		_, err = runtime.ListImagesByNames(namesAndTags)
 		require.NoError(t, err, "%v", test)
 	}
 }

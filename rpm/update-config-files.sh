@@ -33,15 +33,8 @@ ensure storage.conf                 mountopt            \"nodev,metacopy=on\"
 ensure pkg/config/containers.conf   runtime             \"crun\"
 ensure pkg/config/containers.conf   log_driver          \"journald\"
 
-# Enable seccomp support keyctl and socketcall
-grep -q \"keyctl\", pkg/seccomp/seccomp.json || sed -i '/\"kill\",/i \
-    "keyctl",' pkg/seccomp/seccomp.json
-grep -q \"socket\", pkg/seccomp/seccomp.json || sed -i '/\"socketcall\",/i \
-    "socket",' pkg/seccomp/seccomp.json
-
 FEDORA=$(rpm --eval '%{?fedora}')
 RHEL=$(rpm --eval '%{?rhel}')
-COPR=$(rpm --eval '%{?copr_username}')
 
 # Set search registries
 if [[ -n "$FEDORA" ]]; then
@@ -53,13 +46,4 @@ fi
 # Set these on all Fedora and RHEL 10+
 if [[ -n "$FEDORA" ]] || [[ "$RHEL" -ge 10 ]]; then
     sed -i -e '/^additionalimagestores\ =\ \[/a "\/usr\/lib\/containers\/storage",' storage.conf
-fi
-
-# Set these on Fedora Rawhide (41+), RHEL 10+, and on all COPR builds
-# regardless of distro
-if [[ -n "$COPR" ]] || [[ "$FEDORA" -gt 40 ]] || [[ "$RHEL" -ge 10 ]]; then
-    ensure pkg/config/containers.conf   compression_format  \"zstd:chunked\"
-    ensure storage.conf pull_options    \{enable_partial_images\ =\ \"true\",\ use_hard_links\ =\ \"false\",\ ostree_repos=\"\",\ convert_images\ =\ \"false\"\}
-    # Leave composefs disabled
-    ensure storage.conf use_composefs   \"false\"
 fi
